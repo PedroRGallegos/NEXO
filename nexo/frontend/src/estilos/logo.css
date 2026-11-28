@@ -1,0 +1,24 @@
+.logo { display: block; flex: none; }
+.logo__esquina { fill: none; stroke: #6366f1; stroke-width: 3; stroke-linecap: square; }
+.logo__marcas line { stroke: #00f3ff; stroke-width: 1.6; opacity: 0.55; }
+.logo__anillo { fill: none; transform-box: fill-box; transform-origin: center; }
+.logo__anillo--exterior { stroke: #00f3ff; stroke-width: 7; stroke-dasharray: 48 11.69; transform: rotate(-20deg); }
+.logo__anillo--medio { stroke: #a78bfa; stroke-width: 6; stroke-dasharray: 34 9.98; transform: rotate(35deg); }
+.logo__anillo--acento { stroke: #6366f1; stroke-width: 7; stroke-dasharray: 9 229.76; transform: rotate(-20deg); }
+.logo__bisel { fill: #07131c; stroke: #a78bfa; stroke-width: 2.4; stroke-linejoin: miter; }
+.logo__nucleo { fill: #a78bfa; }
+.logo__pupila { fill: #050a0f; }
+.logo--animado .logo__anillo--medio { animation: logo-giro 28s linear infinite reverse; }
+.logo--animado .logo__anillo--exterior { animation: logo-giro 40s linear infinite; }
+@keyframes logo-giro { from { rotate: 0deg; } to { rotate: 360deg; } }
+@media (prefers-reduced-motion: reduce) {.logo--animado .logo__anillo--medio, .logo--animado .logo__anillo--exterior { animation: none; }
+
+}
+.marca__emblema { filter: none; }
+.bienvenida > .logo { margin: 0 auto 8px; }
+/* Evita que la bienvenida quede cortada por arriba cuando falta altura */
+.mensajes > .bienvenida { margin-block: auto; }
+@media (max-height: 900px) and (min-width: 700px) {.bienvenida > .logo { display: none; }
+ }
+
+

@@ -1,0 +1,124 @@
+/* ==========================================================================
+   responsive.css — TODAS las media queries de tamaño del proyecto (agente B).
+   Se importa el ÚLTIMO en main.tsx: gana por cascada a layout/componentes/cyberpunk.
+   (prefers-reduced-motion se queda en los ficheros donde estaba.)
+   ========================================================================== */
+
+/* Nunca scroll horizontal de la página */
+html, body { max-width: 100%; overflow-x: hidden; }
+.app, .chat { min-width: 0; }
+
+/* --- <= 1100px: panel derecho como capa superpuesta, barra lateral más estrecha ----------------- */
+@media (max-width: 1100px) {
+  .app, .app--con-panel { grid-template-columns: 260px minmax(0, 1fr); }
+  .panel {
+    position: fixed; inset: 0 0 0 auto; width: min(380px, 100%); z-index: 30;
+    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.6);
+  }
+  .nexo-visual {
+    --nexo-core-size: clamp(210px, 31vw, 320px);
+    grid-template-columns: minmax(0, 1fr) clamp(220px, 32vw, 340px) minmax(0, 1fr);
+    grid-template-rows: 24px minmax(240px, 1fr) 22px; min-height: clamp(300px, 38vh, 390px);
+    padding-inline: 24px;
+  }
+  .nexo-visual__hud { padding-inline: 10px; }
+}
+
+/* --- <= 900px ------------------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .nexo-visual__hud::after { display: none; }
+}
+
+/* El velo del cajón solo existe en modo cajón (si no, sería un hijo más del grid y descolocaría el chat) */
+.velo, .menu { display: none; }
+
+/* --- Modo cajón: pantalla estrecha (<= 760px) o muy baja (móvil en horizontal, <= 520px de alto) ---- */
+@media (max-width: 760px), (max-height: 520px) {
+  .app, .app--con-panel { grid-template-columns: minmax(0, 1fr); }
+  .menu { display: inline-flex; }
+  .sidebar {
+    position: fixed; inset: 0 auto 0 0; width: min(300px, 86vw); z-index: 40;
+    transform: translateX(-102%); transition: transform 0.2s ease;
+  }
+  .sidebar--abierta { transform: none; box-shadow: 12px 0 40px rgba(0, 0, 0, 0.6); }
+  .velo { display: block; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); z-index: 35; }
+  .cabecera { padding: 10px 12px; }
+  .medidor__texto { display: none; }
+}
+/* Panel de Configuración / Estadísticas a pantalla completa en pantallas estrechas */
+@media (max-width: 760px) {
+  .panel { position: fixed; inset: 0; width: 100%; z-index: 45; }
+}
+
+/* --- Poca altura con pantalla ancha (portátiles 1366x768, 1280x720, 1024x768): esfera más baja ----- */
+@media (max-height: 800px) and (min-width: 601px) {
+  .nexo-visual {
+    --nexo-core-size: clamp(160px, 27vh, 230px);
+    grid-template-rows: 22px minmax(170px, 1fr) 20px; min-height: clamp(236px, 34vh, 270px);
+  }
+  .nexo-visual::before { top: 40px; }
+  .nexo-visual::after { bottom: 36px; }
+  .mensajes { padding-block: 14px; }
+}
+
+/* --- <= 600px o muy baja: HUD de la esfera compacto ------------------------------------------------ */
+@media (max-width: 600px), (max-height: 520px) {
+  .nexo-visual {
+    --nexo-core-size: 124px;
+    grid-template-columns: minmax(0, 1fr) 132px minmax(0, 1fr);
+    grid-template-rows: 24px 136px 20px; min-height: 196px; padding: 8px 12px;
+  }
+  .nexo-visual::before { top: 38px; }
+  .nexo-visual::after { bottom: 34px; }
+  .nexo-visual__centro { width: 132px; }
+  .nexo-visual__hud { gap: 5px; padding: 8px 6px; }
+  .nexo-visual__hud--izquierdo, .nexo-visual__hud--derecho { width: 100%; }
+  .nexo-visual__etiqueta { font-size: 7px; letter-spacing: 0.08em; }
+  .nexo-visual__hud strong { font-size: 13px; }
+  .nexo-visual__hud strong small, .nexo-visual__dato small { font-size: 7px; }
+  .nexo-visual__dato { font-size: 7px; gap: 3px; }
+  .nexo-visual__barra, .nexo-visual__etiqueta--comando, .nexo-visual__comando { display: none; }
+  .nexo-visual__cabecera { font-size: 7px; letter-spacing: 0.08em; }
+  .nexo-visual__canal { font-size: 0; }
+  .nexo-visual__marco i { width: 14px; height: 14px; }
+  .nexo-visual__marco i:nth-child(1) { top: 9px; left: 9px; }
+  .nexo-visual__marco i:nth-child(2) { top: 9px; right: 9px; }
+  .nexo-visual__marco i:nth-child(3) { bottom: 9px; left: 9px; }
+  .nexo-visual__marco i:nth-child(4) { bottom: 9px; right: 9px; }
+}
+
+/* --- Muy baja (móvil horizontal, 844x390): todo más compacto ------------------------------------- */
+@media (max-height: 520px) {
+  .nexo-visual {
+    --nexo-core-size: 104px;
+    grid-template-columns: minmax(0, 1fr) 112px minmax(0, 1fr);
+    grid-template-rows: 18px 108px 14px; min-height: 150px; padding: 4px 16px;
+  }
+  .nexo-visual__centro { width: 112px; }
+  .nexo-visual::before { top: 28px; }
+  .nexo-visual::after { bottom: 24px; }
+  .cabecera { padding: 6px 12px; }
+  .mensajes { padding-block: 10px; }
+  .composer { padding-block: 8px 10px; }
+  .bienvenida { gap: 8px; }
+  .bienvenida h1 { font-size: 17px; }
+  .bienvenida > .logo, .arranque { display: none; }
+}
+
+/* --- <= 560px ------------------------------------------------------------------------------------- */
+@media (max-width: 560px) {
+  .chip--sesion { display: none; }
+}
+
+/* --- <= 360px ------------------------------------------------------------------------------------- */
+@media (max-width: 360px) {
+  .nexo-visual { --nexo-core-size: 108px; grid-template-columns: minmax(0, 1fr) 114px minmax(0, 1fr); padding-inline: 8px; }
+  .nexo-visual__centro { width: 114px; }
+  .nexo-visual__hud strong { font-size: 11px; }
+  .nexo-visual__identidad { gap: 5px; }
+}
+
+/* --- Poca altura en pantallas anchas (portátiles 768/720) ----------------------------------------- */
+@media (max-height: 900px) and (min-width: 700px) {
+  .bienvenida > .logo { display: none; }
+}

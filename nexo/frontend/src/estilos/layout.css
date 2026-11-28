@@ -1,0 +1,63 @@
+:root { --ancho-lateral: 248px; --ancho-panel: 320px; }
+.app {
+  display: grid;
+  grid-template-columns: var(--ancho-lateral) minmax(0, 1fr);
+  height: 100dvh;
+}
+.app--con-panel { grid-template-columns: var(--ancho-lateral) minmax(0, 1fr) var(--ancho-panel); }
+/* --- Barra lateral ---------------------------------------------------------- */
+.sidebar {
+  display: flex; flex-direction: column; gap: 16px;
+  padding: 18px 14px;
+  background: linear-gradient(180deg, var(--panel), #090a14);
+  border-right: 1px solid var(--borde);
+  min-height: 0;
+}
+.historial { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+.sidebar__pie { display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--borde); padding-top: 12px; }
+/* --- Área de chat ------------------------------------------------------------ */
+.chat { display: flex; flex-direction: column; min-width: 0; min-height: 0; height: 100dvh; }
+.cabecera {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 20px; border-bottom: 1px solid var(--borde);
+  background: rgba(9, 10, 20, 0.7); backdrop-filter: blur(6px);
+}
+.cabecera__titulo { flex: 1; min-width: 0; }
+.menu { display: none; }
+.mensajes {
+  flex: 1; min-height: 0; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 14px;
+  padding: 24px clamp(14px, 4vw, 48px);
+}
+/* --- Panel lateral derecho --------------------------------------------------- */
+.panel {
+  display: flex; flex-direction: column; gap: 14px;
+  padding: 18px 16px; overflow-y: auto; min-height: 0;
+  background: linear-gradient(180deg, var(--panel), #090a14);
+  border-left: 1px solid var(--borde);
+}
+.panel__cabecera { display: flex; align-items: center; justify-content: space-between; }
+.panel__cabecera h2 { font-family: var(--fuente-hud); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cian); }
+/* --- Pantallas medianas y pequeñas -------------------------------------------- */
+@media (max-width: 1100px) {
+  .app, .app--con-panel { grid-template-columns: 260px minmax(0, 1fr); }
+  .panel {
+    position: fixed; inset: 0 0 0 auto; width: min(380px, 100%); z-index: 30;
+    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.6);
+  }
+}
+@media (max-width: 760px) {.app, .app--con-panel { grid-template-columns: minmax(0, 1fr); }
+.menu { display: inline-flex; }
+.sidebar {
+    position: fixed; inset: 0 auto 0 0; width: min(300px, 86vw); z-index: 40;
+    transform: translateX(-102%); transition: transform 0.2s ease;
+  }
+.sidebar--abierta { transform: none; box-shadow: 12px 0 40px rgba(0, 0, 0, 0.6); }
+.velo { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); z-index: 35; }
+.panel { width: 100%; }
+.cabecera { padding: 10px 12px; }
+.medidor__texto { display: none; }
+
+}
+
+

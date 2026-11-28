@@ -1,0 +1,3 @@
+-r requirements.txt
+httpx>=0.27   # lo necesita el TestClient de FastAPI
+pytest>=8     # opcional: los tests también se ejecutan con unittest

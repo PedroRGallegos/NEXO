@@ -1,0 +1,24 @@
+# Entorno y caché
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# Secretos del proveedor LLM: nunca se suben (solo la plantilla .env.example)
+.env
+.env.*
+!.env.example
+
+# Datos generados al usar el programa
+datos/
+
+# Frontend: node_modules no se sube; dist/ SÍ, para que la web funcione sin instalar Node
+frontend/node_modules/
+
+# Editores, sistema y archivos auxiliares de Windows/WSL
+.idea/
+.vscode/
+.DS_Store
+*Zone.Identifier
+*.rar
+*.zip

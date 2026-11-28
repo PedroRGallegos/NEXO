@@ -1,0 +1,49 @@
+:root {
+  --fondo: #050a0f;
+  --panel: #08121a;
+  --panel-2: #0d1b25;
+  --borde: #173446;
+  --texto: #e6f4f7;
+  --texto-suave: #96b1bd;
+  --cian: #00f3ff;
+  --magenta: #0066ff;
+  --violeta: #218bff;
+  --acento: #8b5cf6;
+  --rojo: #ff4d6d;
+  --verde: #2dffa0;
+  --brillo-cian: 0 0 0 1px rgba(0, 243, 255, 0.55), 0 0 14px rgba(0, 243, 255, 0.25);
+  --brillo-magenta: 0 0 0 1px rgba(0, 128, 255, 0.55), 0 0 14px rgba(0, 128, 255, 0.22);
+  --fuente: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --fuente-hud: ui-monospace, 'SF Mono', 'JetBrains Mono', Consolas, 'Liberation Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body, #raiz { height: 100%; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(0, 128, 255, 0.16), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(0, 243, 255, 0.10), transparent 60%),
+    var(--fondo);
+  color: var(--texto);
+  font-family: var(--fuente);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+button, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+h1, h2, h3, p, ul { margin: 0; }
+ul { padding: 0; list-style: none; }
+code { font-family: var(--fuente-hud); color: var(--cian); font-size: 0.9em; }
+:focus-visible { outline: 2px solid var(--cian); outline-offset: 2px; }
+.solo-lector {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+* { scrollbar-width: thin; scrollbar-color: #17557a transparent; }
+@media (prefers-reduced-motion: reduce) {*, *::before, *::after { animation: none !important; transition: none !important; }
+
+}
+
+

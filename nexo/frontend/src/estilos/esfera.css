@@ -1,0 +1,27 @@
+/* Esfera holográfica (canvas) y detalles de HUD. Se usa el prefijo .nexo-visual para ganar
+   especificidad sobre componentes.css sin tocarlo. */
+.esfera-jarvis {
+  position: relative; z-index: 2; display: block; width: 100%; height: 100%; border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(139, 92, 246, 0.22) 0, rgba(0, 128, 255, 0.1) 30%, rgba(0, 128, 255, 0.035) 58%, transparent 70%);
+  filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.22));
+  transition: filter 0.4s;
+}
+.nexo-visual--hablando .esfera-jarvis { filter: drop-shadow(0 0 18px rgba(139, 92, 246, 0.5)); }
+.nexo-visual--pensando .esfera-jarvis { filter: drop-shadow(0 0 14px rgba(139, 92, 246, 0.38)); }
+/* La esfera ya trae su propio movimiento: se apagan las capas decorativas que competían con ella. */
+.nexo-visual .nexo-visual__nucleo { animation: none; overflow: visible; }
+.nexo-visual .nexo-visual__nucleo::before, .nexo-visual .nexo-visual__nucleo::after { display: none; }
+.nexo-visual__hud { position: relative; }
+.nexo-visual__hud::after {
+  content: ""; position: absolute; top: 50%; width: clamp(16px, 4vw, 54px); height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.6), transparent);
+}
+.nexo-visual__hud--izquierdo::after { left: 100%; }
+.nexo-visual__hud--derecho::after { right: 100%; transform: scaleX(-1); }
+@media (max-width: 900px) {.nexo-visual__hud::after { display: none; }
+ }
+@media (prefers-reduced-motion: reduce) {.esfera-jarvis { transition: none; }
+ }
+
+

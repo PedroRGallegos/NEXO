@@ -1,0 +1,11 @@
+# Por si el repositorio se inicia en esta carpeta (el .gitignore de nexo/ solo cubre nexo/)
+.env
+.env.*
+!.env.example
+*Zone.Identifier
+*.rar
+*.zip
+node_modules/
+__pycache__/
+*.pyc
+datos/
