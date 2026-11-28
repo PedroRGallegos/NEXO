@@ -10,7 +10,6 @@ Tema 1 · Python para IA (bloque de POO) · UD1 / RA1
 - [NEXO: asistente de TechNova](#nexo-asistente-de-technova)
   - [Índice](#índice)
   - [1. Descripción](#1-descripción)
-  - [Guía breve de funcionamiento](GUIA_FUNCIONAMIENTO.md)
   - [2. Requisitos y ejecución](#2-requisitos-y-ejecución)
     - [Tests](#tests)
   - [3. Nivel alcanzado](#3-nivel-alcanzado)
@@ -22,6 +21,10 @@ Tema 1 · Python para IA (bloque de POO) · UD1 / RA1
   - [8. Uso de asistentes de IA](#8-uso-de-asistentes-de-ia)
   - [9. Preguntas de reflexión](#9-preguntas-de-reflexión)
   - [10. Ampliación: interfaz web](#10-ampliación-interfaz-web)
+    - [Ejecución](#ejecución)
+    - [Qué incluye](#qué-incluye)
+    - [Streaming](#streaming)
+    - [Seguridad y errores](#seguridad-y-errores)
 
 ---
 
@@ -82,40 +85,40 @@ Hay 120 funciones `test_*` en Python (recuento estático de `tests/`). Los fiche
 
 ## 3. Nivel alcanzado
 
-| Nivel                 | Contenido                                                                          | Estado     |
-| --------------------- | ---------------------------------------------------------------------------------- | ---------- |
-| 1. Agente básico      | Dominio completo, herramientas, `ModeloEco`, `ModeloReglas`, agente y chat         | Completado |
-| 2. Agente con memoria | Conversaciones en JSON, registro de uso en CSV y comandos del chat                 | Completado |
-| 3. Agente pro         | Retos 1–6, incluyendo LLM opcional, validación, reintentos, streaming y costes      | Completado |
+| Nivel                 | Contenido                                                                      | Estado     |
+| --------------------- | ------------------------------------------------------------------------------ | ---------- |
+| 1. Agente básico      | Dominio completo, herramientas, `ModeloEco`, `ModeloReglas`, agente y chat     | Completado |
+| 2. Agente con memoria | Conversaciones en JSON, registro de uso en CSV y comandos del chat             | Completado |
+| 3. Agente pro         | Retos 1–6, incluyendo LLM opcional, validación, reintentos, streaming y costes | Completado |
 
 ### Retos del Nivel 3
 
-| Reto                                       | Implementación                                                                                                  |
-| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
-| 1. Herramientas nuevas sin tocar el agente | `ConsultaStock` y `Reloj`, añadidas únicamente en el punto de composición                                      |
-| 2. Modelo LLM real                         | `ModeloLLM` opcional con clave desde `.env`, validación, reintentos 429/5xx, SSE y registro de tokens/coste     |
-| 3. Descripción en JSON Schema              | `Herramienta.esquema()`, visible con el comando `/esquemas`                                                     |
-| 4. Varias herramientas en una pregunta     | Una petición puede encadenar el conversor y la calculadora                                                     |
-| 5. Tests                                   | Pruebas de dominio, API, persistencia, validación, reintentos y streaming                                        |
-| 6. Resumen automático                      | Al superar el 80 % del límite de tokens, los mensajes antiguos se sustituyen por un mensaje `[resumen]`        |
+| Reto                                       | Implementación                                                                                              |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| 1. Herramientas nuevas sin tocar el agente | `ConsultaStock` y `Reloj`, añadidas únicamente en el punto de composición                                   |
+| 2. Modelo LLM real                         | `ModeloLLM` opcional con clave desde `.env`, validación, reintentos 429/5xx, SSE y registro de tokens/coste |
+| 3. Descripción en JSON Schema              | `Herramienta.esquema()`, visible con el comando `/esquemas`                                                 |
+| 4. Varias herramientas en una pregunta     | Una petición puede encadenar el conversor y la calculadora                                                  |
+| 5. Tests                                   | Pruebas de dominio, API, persistencia, validación, reintentos y streaming                                   |
+| 6. Resumen automático                      | Al superar el 80 % del límite de tokens, los mensajes antiguos se sustituyen por un mensaje `[resumen]`     |
 
 ## 4. Comandos del chat
 
-| Comando                          | Acción                                          |
-| -------------------------------- | ----------------------------------------------- |
-| *(texto normal)*                 | Envía el mensaje a NEXO                         |
-| `/herramientas`                  | Lista las herramientas disponibles              |
-| `/esquemas`                      | Muestra las herramientas en formato JSON Schema |
-| `/modelo eco` · `/modelo reglas` | Cambia de modelo en caliente                    |
-| `/historial`                     | Muestra los mensajes y los tokens estimados     |
-| `/guardar`                       | Guarda la conversación en disco                 |
-| `/cargar <id>`                   | Carga una conversación guardada                 |
-| `/lista`                         | Lista las conversaciones guardadas              |
-| `/nueva`                         | Empieza una conversación nueva                  |
+| Comando                          | Acción                                                 |
+| -------------------------------- | ------------------------------------------------------ |
+| *(texto normal)*                 | Envía el mensaje a NEXO                                |
+| `/herramientas`                  | Lista las herramientas disponibles                     |
+| `/esquemas`                      | Muestra las herramientas en formato JSON Schema        |
+| `/modelo eco` · `/modelo reglas` | Cambia de modelo en caliente                           |
+| `/historial`                     | Muestra los mensajes y los tokens estimados            |
+| `/guardar`                       | Guarda la conversación en disco                        |
+| `/cargar <id>`                   | Carga una conversación guardada                        |
+| `/lista`                         | Lista las conversaciones guardadas                     |
+| `/nueva`                         | Empieza una conversación nueva                         |
 | `/limpiar`                       | Guarda la actual y empieza de cero (historial intacto) |
-| `/stats`                         | Resumen de uso de las herramientas              |
-| `/ayuda`                         | Muestra la lista de comandos                    |
-| `/salir`                         | Termina el programa                             |
+| `/stats`                         | Resumen de uso de las herramientas                     |
+| `/ayuda`                         | Muestra la lista de comandos                           |
+| `/salir`                         | Termina el programa                                    |
 
 Ejemplos de frases que entiende `ModeloReglas`:
 
@@ -345,16 +348,16 @@ Se ha utilizado **Claude** (Anthropic) como asistente, tanto en el chat como con
   - [COMPLETAR: cuáles de estos datos o textos ha cambiado el equipo, y por qué.]
 - Revisión del código por clases (cada persona debe poder explicar las suyas):
 
-| Clase | Fichero | Revisada por |
-|---|---|---|
+| Clase                                                                                    | Fichero                   | Revisada por        |
+| ---------------------------------------------------------------------------------------- | ------------------------- | ------------------- |
 | `Herramienta`, `Calculadora`, `ConversorMoneda`, `BuscadorFAQ`, `ConsultaStock`, `Reloj` | `dominio/herramientas.py` | [COMPLETAR: nombre] |
-| `Mensaje`, `Conversacion` | `dominio/mensaje.py` | [COMPLETAR: nombre] |
-| `Modelo`, `ModeloEco`, `ModeloReglas`, `ModeloLLM`, `Respuesta` | `dominio/modelos.py` | [COMPLETAR: nombre] |
-| Jerarquía `ErrorAgente` | `dominio/excepciones.py` | [COMPLETAR: nombre] |
-| `Agente`, `GestorConversaciones` | `servicios/` | [COMPLETAR: nombre] |
-| `RegistroUso`, `RepositorioConversaciones` | `persistencia/` | [COMPLETAR: nombre] |
-| `ChatConsola`, API y esquemas | `presentacion/` | [COMPLETAR: nombre] |
-| Interfaz web (React) | `frontend/src/` | [COMPLETAR: nombre] |
+| `Mensaje`, `Conversacion`                                                                | `dominio/mensaje.py`      | [COMPLETAR: nombre] |
+| `Modelo`, `ModeloEco`, `ModeloReglas`, `ModeloLLM`, `Respuesta`                          | `dominio/modelos.py`      | [COMPLETAR: nombre] |
+| Jerarquía `ErrorAgente`                                                                  | `dominio/excepciones.py`  | [COMPLETAR: nombre] |
+| `Agente`, `GestorConversaciones`                                                         | `servicios/`              | [COMPLETAR: nombre] |
+| `RegistroUso`, `RepositorioConversaciones`                                               | `persistencia/`           | [COMPLETAR: nombre] |
+| `ChatConsola`, API y esquemas                                                            | `presentacion/`           | [COMPLETAR: nombre] |
+| Interfaz web (React)                                                                     | `frontend/src/`           | [COMPLETAR: nombre] |
 
 **Decisiones de diseño entendidas y mantenidas**
 - Formato `[nombre] resultado` en los mensajes de herramienta.
@@ -426,17 +429,17 @@ python probar_llm.py            # opcional: comprueba clave, URL y modelo con un
 
 `ModeloLLM` usa la API de chat completions de OpenAI y es compatible con otros proveedores que la ofrecen, como Groq. La plantilla `.env.example` trae Groq por defecto (`LLM_API_URL=https://api.groq.com/openai/v1/chat/completions`, `LLM_MODEL=openai/gpt-oss-120b`) y OpenAI como alternativa comentada. Variables que lee `ModeloLLM`:
 
-| Variable | Valor en `.env.example` | Función |
-|---|---|---|
-| `LLM_API_KEY` | vacío | Clave del proveedor. Sin ella la web solo ofrece los modelos locales |
-| `LLM_API_URL` | Groq (ver arriba) | Endpoint de chat completions (por defecto en el código: OpenAI) |
-| `LLM_MODEL` | `openai/gpt-oss-120b` | Modelo del proveedor (por defecto en el código: `gpt-4o`) |
-| `LLM_MAX_TOKENS` | `500` | Tope normal de tokens por respuesta (por defecto en el código, si falta: 150) |
-| `LLM_MAX_TOKENS_AMPLIADO` | `1000` | Si la respuesta se corta en el tope normal, se continúa automáticamente hasta este total; `0` desactiva la ampliación |
-| `LLM_REASONING_EFFORT` | `low` | Esfuerzo de razonamiento para modelos gpt-oss (`low`, `medium`, `high`); vacío = no se envía |
-| `LLM_SYSTEM` | comentada | Instrucción de sistema; vacío = ninguna; si no se define, se usa una instrucción por defecto (español, concisa y en texto plano) |
-| `LLM_TEMPERATURE` | `0.7` | Temperatura |
-| `LLM_COST_PER_1K_OUTPUT` | `0.008` | Tarifa didáctica en € por 1000 tokens de salida; ajústala a la del proveedor |
+| Variable                  | Valor en `.env.example` | Función                                                                                                                          |
+| ------------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `LLM_API_KEY`             | vacío                   | Clave del proveedor. Sin ella la web solo ofrece los modelos locales                                                             |
+| `LLM_API_URL`             | Groq (ver arriba)       | Endpoint de chat completions (por defecto en el código: OpenAI)                                                                  |
+| `LLM_MODEL`               | `openai/gpt-oss-120b`   | Modelo del proveedor (por defecto en el código: `gpt-4o`)                                                                        |
+| `LLM_MAX_TOKENS`          | `500`                   | Tope normal de tokens por respuesta (por defecto en el código, si falta: 150)                                                    |
+| `LLM_MAX_TOKENS_AMPLIADO` | `1000`                  | Si la respuesta se corta en el tope normal, se continúa automáticamente hasta este total; `0` desactiva la ampliación            |
+| `LLM_REASONING_EFFORT`    | `low`                   | Esfuerzo de razonamiento para modelos gpt-oss (`low`, `medium`, `high`); vacío = no se envía                                     |
+| `LLM_SYSTEM`              | comentada               | Instrucción de sistema; vacío = ninguna; si no se define, se usa una instrucción por defecto (español, concisa y en texto plano) |
+| `LLM_TEMPERATURE`         | `0.7`                   | Temperatura                                                                                                                      |
+| `LLM_COST_PER_1K_OUTPUT`  | `0.008`                 | Tarifa didáctica en € por 1000 tokens de salida; ajústala a la del proveedor                                                     |
 
 Los modelos gpt-oss razonan y gastan tokens pensando, de ahí `LLM_REASONING_EFFORT=low` y el tope ampliado. Los tokens de salida se leen de `usage` (o de `x_groq.usage`) y, si el proveedor no los envía en streaming, se estiman. Cuando el proveedor rechaza la petición, la API devuelve el error `error_proveedor` (502) con el código HTTP y el motivo del proveedor (clave inválida, modelo inexistente, límite...), nunca la clave. `.env` está excluido en `.gitignore`.
 
